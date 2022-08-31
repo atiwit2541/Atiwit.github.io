@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Air-Flow</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js"></script>
+    <link rel="stylesheet" href='style.css'>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js">
+    </script>
+    <link rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css"
+        type="text/css" />
+    <script src="style.js"></script>
+    <link rel="stylesheet" href="style copy.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+    
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+
+        .legend {
+            background-color: rgba(248, 248, 255, 1);
+            border-radius: 3px;
+            bottom: 30px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            font: 12px/20px "Helvetica Neue", Arial, Helvetica, sans-serif;
+            padding: 5px;
+            position: absolute;
+            right: 10px;
+            z-index: -1;
+        }
+
+        .legend h4 {
+            margin: 0 0 10px;
+        }
+
+        .legend div span {
+            border-radius: 50%;
+            display: inline-block;
+            height: 10px;
+            margin-right: 5px;
+            width: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <!-- <nav id="menu"></nav> -->
+    <div class="container">
+
+        <div id="state-legend" class="legend">
+            <table width="500" border="1">
+                <tr>
+                    <th style="text-align: center; vertical-align: middle">Color</th>
+                    <th style="text-align: center; vertical-align: middle">
+                        ดัชนีคุณคุณภาพอากาศ AQI สำหรับ PM 2.5
+                    </th>
+                <tr>
+                    <td style="background-color: 	rgb(0, 255, 255)"></td>
+                    <td style="text-align: center; vertical-align: middle">ดีมาก</td>
+                </tr>
+
+                <tr>
+                    <td style="background-color: 	rgb(53, 150, 53)"></td>
+                    <td style="text-align: center; vertical-align: middle">ดี</td>
+                </tr>
+
+                <tr>
+                    <td style="background-color: rgb(255, 255, 0)"></td>
+                    <td style="text-align: center; vertical-align: middle">ปานกลาง</td>
+                </tr>
+                <tr>
+                    <td style="background-color: rgb(255, 128, 0)"></td>
+                    <td style="text-align: center; vertical-align: middle">เริ่มมีผลกระทบต่อสุขภาพ</td>
+                </tr>
+                <tr>
+                    <td style="background-color:  rgb(255, 0, 0)"></td>
+                    <td style="text-align: center; vertical-align: middle">มีผลกระทบต่อสุขภาพ</td>
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+
+        <div id="mySidebar" class="sidebar">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+            <p style="text-align:center; font-size:20px ; color:#3b3e41">ภาพถ่ายดาวเทียม<br>
+            <nav id="menu"></nav>
+
+        </div>
+        
+        <div id="mySidebar2" class="sidebar2">
+            <a href="javascript:void(0)" class="closebtn2" onclick="closeNav2()">×</a>
+            <p style="text-align:center; font-size:20px ; color:#3b3e41"> สถานนีตรวจวัดคุณภาพอากาศ </p>
+            <nav id="menu1"></nav>
+        </div>
+
+        <div id="main">
+            <button class="openbtn button4" onclick="openNav()"><i class="fa fa-cloud"
+                style="font-size:18px"></i></button>
+        </div>
+        <div id="main1">
+            <button class="openbtn2 button4" onclick="openNav2()"><i class="material-icons"
+                style="font-size:18px">layers</i>
+        </div>
+
+
+        <div> <button class="fit fit1" id="fit" title="zoom to Phuket"><i class="fa fa-refresh"></i></button> </div>
+        
+
+        <script>
+
+            function openNav() {
+                document.getElementById("mySidebar").style.width = "400px";
+                document.getElementById("main").style.marginLeft = "0px";
+            }
+
+            function closeNav() {
+                document.getElementById("mySidebar").style.width = "0";
+                document.getElementById("main").style.marginLeft = "0";
+            }
+
+            function openNav2() {
+                document.getElementById("mySidebar2").style.width = "400px";
+                document.getElementById("main1").style.marginLeft = "0px";
+            }
+
+            function closeNav2() {
+                document.getElementById("mySidebar2").style.width = "0";
+                document.getElementById("main1").style.marginLeft = "0";
+            }
+
+            mapboxgl.accessToken =
+                "pk.eyJ1IjoiYXRpd2l0IiwiYSI6ImNraHEzd2dhcjFoM3IzOG14OWE2NDN4d2EifQ.gpmCZaDqR21iu8k2jbv4PQ";
+            // var map = new mapboxgl.Map({
+            //     container: "map",
+            //     style: "mapbox://styles/mapbox/dark-v10",
+            //     center: [100.513916, 13.742053],
+            //     zoom: 5,
+            //     minzoom: 5,
+            //     maxzoom: 5,
+            // });
+            var map = new mapboxgl.Map({
+                container: "map",
+                style: JSONstyle,
+
+                center: [100, 13],
+                zoom: 5,
+            });
+
+            map.addControl(
+                new MapboxGeocoder({
+                    accessToken: mapboxgl.accessToken,
+                    mapboxgl: mapboxgl
+                })
+            );
+
+
+            map.addControl(
+                new mapboxgl.GeolocateControl({
+                    positionOptions: {
+                        enableHighAccuracy: true
+                    },
+                    trackUserLocation: true
+                })
+            );
+            map.addControl(new mapboxgl.FullscreenControl());
+            map.addControl(new mapboxgl.NavigationControl());
+            document.getElementById("fit").addEventListener("click", function () {
+            map.zoomTo(5, {
+                duration: 3000,
+                center: [100, 13],
+            });
+            });
+
+
+
+
+
+            map.on('load', function () {
+
+
+
+                // map.addSource("thai", {
+                //     type: "geojson",
+                //     data: "https://gist.githubusercontent.com/kristw/7fbf031e3205a8a453a8/raw/4cd5d4e5efa3d769e9c122d4742b8311355fadbc/thailand.json",
+                // });
+
+                // // addlayer
+                // map.addLayer({
+                //     id: "CHA_NE",
+                //     type: "fill",
+                //     source: "thai",
+                //     layout: {},
+                //     paint: {
+                //         "fill-color": "rgba(248, 248, 255, 0.1)",
+
+                //     },
+                // });
+
+   
+
+                map.addSource("STA_PM2021-01-01", {
+                    type: "vector",
+                    tiles: [
+                        "https://v2k.vallarismaps.com/core/tiles/6043ad3b58eb145c704a1160/{z}/{x}/{y}?api_key=YXBT4wOI2bCjUpRR1oj9ETvfn66j5iEvjDWbfcWlZi2jRgcZAKnYF7j3sqbavw18"
+                    ],
+                    "minzoom": 0,
+                    "maxzoom": 14
+                });
+                map.addLayer({
+                    id: '2021-01-01',
+                    type: 'fill-extrusion',
+                    source: 'STA_PM2021-01-01',
+                    "source-layer": "6043ad3b58eb145c704a1160",
+                    layout: {
+                        'visibility': 'none'
+                    },
+                    paint: {
+                        'fill-extrusion-color': [
+                            "interpolate",
+                            ["linear"],
+                            ["get", "pm25"],
+                            0,
+                            "rgb(0, 255, 255)",
+                            26,
+                            "rgb(53, 150, 53)",
+                            38,
+                            "rgb(255, 255, 0)",
+                            51,
+                            "rgb(255, 128, 0)",
+                            91,
+                            "rgb(255, 0, 0)",
+
+
+                        ],
+                        'fill-extrusion-height': ["*", ['get', 'pm25'], 400],
+                        'fill-extrusion-opacity': 1
+                    }
+                });
+
+                map.on('click', '2021-01-01', function (e) {
+                    new mapboxgl.Popup({
+                            className: "apple-popup"
+                        })
+                        .setLngLat(e.lngLat)
+                        .setHTML(
+                            '<b>PM 2.5 : </b>' + e.features[0].properties.pm25 + ' µg./m3' + '<br/>' + 
+                            '<b>Province : </b>' + e.features[0].properties.p_name_t + '<br/>' +
+                            '<b>District : </b>' + e.features[0].properties.a_name_t + '<br/>'
+
+                        )
+                        .addTo(map);
+                });
+                map.on('mouseenter', '2021-01-01', function () {
+                    map.getCanvas().style.cursor = 'pointer';
+                });
+                map.on('mouseleave', '2021-01-01', function () {
+                    map.getCanvas().style.cursor = '';
+                });
+
+                toggleLayer(['2021-01-01'],
+                    'ภาพถ่ายดาวเทียมปี 2021-01-01');
+     
+
+                function toggleLayer(ids, name) {
+                    var link = document.createElement('a');
+                    link.href = '#';
+                    link.className = 'active';
+                    link.textContent = name;
+
+                    link.onclick = function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        for (layers in ids) {
+                            var visibility = map.getLayoutProperty(ids[layers], 'visibility');
+                            if (visibility === 'visible') {
+                                map.setLayoutProperty(ids[layers], 'visibility', 'none');
+                                this.className = '';
+                            } else {
+                                this.className = 'active';
+                                map.setLayoutProperty(ids[layers], 'visibility', 'visible');
+                            }
+                        }
+
+                    };
+                    var layers = document.getElementById('menu');
+                    layers.appendChild(link);
+                }
+        
+                map.addSource("STA_PM2021-01-16", {
+                    type: "vector",
+                    tiles: [
+                        "https://v2k.vallarismaps.com/core/tiles/604365bf159451bc3309cd78/{z}/{x}/{y}?api_key=YXBT4wOI2bCjUpRR1oj9ETvfn66j5iEvjDWbfcWlZi2jRgcZAKnYF7j3sqbavw18"
+                    ],
+                    "minzoom": 0,
+                    "maxzoom": 14
+                });
+
+                map.addLayer({
+                    id: 'clusters',
+                    type: 'circle',
+                    source: 'STA_PM2021-01-16',
+                    "source-layer": "604365bf159451bc3309cd78",
+                    layout: {
+                        'visibility': 'none'
+                    },
+                    filter: ['has', 'point_count'],
+                    paint: {
+                        // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+                        // with three steps to implement three types of circles:
+                        //   * Blue, 20px circles when point count is less than 100
+                        //   * Yellow, 30px circles when point count is between 100 and 750
+                        //   * Pink, 40px circles when point count is greater than or equal to 750
+                        'circle-color': [
+                            'step',
+                            ['get', 'point_count'],
+                            '#51bbd6',
+                            5,
+                            '#f1f075',
+                            10,
+                            '#f28cb1'
+                        ],
+                        'circle-radius': [
+                            'step',
+                            ['get', 'point_count'],
+                            20,
+                            100,
+                            30,
+                            750,
+                            40
+                        ]
+                    }
+                });
+
+                map.addLayer({
+                    'id': 'earthquake-labels',
+                    'type': 'symbol',
+                     source: 'STA_PM2021-01-16',
+                    "source-layer": "604365bf159451bc3309cd78",
+                    'layout': { 'visibility': 'none',
+                        'text-field': [
+                            'concat',
+                            ['to-string', ['get', 'point_count']],
+                        ],
+                        'text-font': [
+                            'Kanit',
+                            'Kanit'
+                        ],
+                        'text-size': 12
+                    },
+                    'paint': {
+                        'text-color': 'rgba(0,0,0,0.5)'
+                    }
+                });
+
+                map.addLayer({
+                    id: 'unclustered-point',
+                    type: 'circle',
+                    source: 'STA_PM2021-01-16',
+                    "source-layer": "604365bf159451bc3309cd78",
+                    filter: ['!', ['has', 'point_count']],
+                    layout: {
+                        'visibility': 'none'
+                    },
+                    paint: {
+                        'circle-color': '#11b4da',
+                        'circle-radius': 4,
+                        'circle-stroke-width': 1,
+                        'circle-stroke-color': '#fff'
+                    }
+                });
+
+                map.on('click', 'unclustered-point', function (e) {
+                    new mapboxgl.Popup({
+                            className: "apple-popup"
+                        })
+                        .setLngLat(e.lngLat)
+                        .setHTML(
+                            '<b>Station ID : </b>' + e.features[0].properties.stationid + '<br/>' +
+                            '<b>Station name : </b>' + e.features[0].properties.nameen + '<br/>' +
+                            '<b>PM 2.5 : </b>' + e.features[0].properties.pm25 + ' µg./m3' + '<br/>'
+                        )
+                        .addTo(map);
+                });
+
+                map.on('mouseenter', 'unclustered-point', function () {
+                    map.getCanvas().style.cursor = 'pointer';
+                });
+                map.on('mouseleave', 'unclustered-point', function () {
+                    map.getCanvas().style.cursor = '';
+                });
+
+                toggleLayer1(['clusters', 'earthquake-labels','unclustered-point'],
+                    'สถานนีตรวจวัดคุณภาพอากาศ 20-01-16');
+                toggleLayer1(['clusters3', 'earthquake-labels3','unclustered-point3'],
+                    'สถานนีตรวจวัดคุณภาพอากาศ 20-01-19');
+                toggleLayer1(['clusters2', 'earthquake-labels2','unclustered-point2'],
+                    'สถานนีตรวจวัดคุณภาพอากาศ 20-01-23');
+                toggleLayer1(['clusters1', 'earthquake-labels1','unclustered-point1'],
+                    'สถานนีตรวจวัดคุณภาพอากาศ 20-01-26');
+                
+                
+  
+                
+                function toggleLayer1(ids, name) {
+                    var link = document.createElement('a');
+                    link.href = '#';
+                    link.className = 'active';
+                    link.textContent = name;
+
+                    link.onclick = function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        for (layers in ids) {
+                            var visibility = map.getLayoutProperty(ids[layers], 'visibility');
+                            if (visibility === 'visible') {
+                                map.setLayoutProperty(ids[layers], 'visibility', 'none');
+                                this.className = '';
+                            } else {
+                                this.className = 'active';
+                                map.setLayoutProperty(ids[layers], 'visibility', 'visible');
+                            }
+                        }
+
+                    };
+                    var layers = document.getElementById('menu1');
+                    layers.appendChild(link);
+                }
+
+                
+
+                map.addSource("STA_PM2021-01-26", {
+                    type: "vector",
+                    tiles: [
+                        "https://v2k.vallarismaps.com/core/tiles/604372cf1ec917b9c58bfb35/{z}/{x}/{y}?api_key=YXBT4wOI2bCjUpRR1oj9ETvfn66j5iEvjDWbfcWlZi2jRgcZAKnYF7j3sqbavw18"
+                    ],
+                    "minzoom": 0,
+                    "maxzoom": 14
+                });
+
+                map.addLayer({
+                    id: 'clusters1',
+                    type: 'circle',
+                    source: 'STA_PM2021-01-26',
+                    "source-layer": "604372cf1ec917b9c58bfb35",
+                    layout: {
+                        'visibility': 'none'
+                    },
+                    filter: ['has', 'point_count'],
+                    paint: {
+                        // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+                        // with three steps to implement three types of circles:
+                        //   * Blue, 20px circles when point count is less than 100
+                        //   * Yellow, 30px circles when point count is between 100 and 750
+                        //   * Pink, 40px circles when point count is greater than or equal to 750
+                        'circle-color': [
+                            'step',
+                            ['get', 'point_count'],
+                            '#51bbd6',
+                            5,
+                            '#f1f075',
+                            10,
+                            '#f28cb1'
+                        ],
+                        'circle-radius': [
+                            'step',
+                            ['get', 'point_count'],
+                            20,
+                            100,
+                            30,
+                            750,
+                            40
+                        ]
+                    }
+                });
+
+                map.addLayer({
+                    'id': 'earthquake-labels1',
+                    'type': 'symbol',
+                     source: 'STA_PM2021-01-26',
+                    "source-layer": "604372cf1ec917b9c58bfb35",
+                    'layout': { 'visibility': 'none',
+                        'text-field': [
+                            'concat',
+                            ['to-string', ['get', 'point_count']],
+                        ],
+                        'text-font': [
+                            'Kanit',
+                            'Kanit'
+                        ],
+                        'text-size': 12
+                    },
+                    'paint': {
+                        'text-color': 'rgba(0,0,0,0.5)'
+                    }
+                });
+
+                map.addLayer({
+                    id: 'unclustered-point1',
+                    type: 'circle',
+                    source: 'STA_PM2021-01-26',
+                    "source-layer": "604372cf1ec917b9c58bfb35",
+                    filter: ['!', ['has', 'point_count']],
+                    layout: {
+                        'visibility': 'none'
+                    },
+                    paint: {
+                        'circle-color': '#11b4da',
+                        'circle-radius': 4,
+                        'circle-stroke-width': 1,
+                        'circle-stroke-color': '#fff'
+                    }
+                });
+
+                map.on('click', 'unclustered-point1', function (e) {
+                    new mapboxgl.Popup({
+                            className: "apple-popup"
+                        })
+                        .setLngLat(e.lngLat)
+                        .setHTML(
+                            '<b>Station ID : </b>' + e.features[0].properties.stationid + '<br/>' +
+                            '<b>Station name : </b>' + e.features[0].properties.nameen + '<br/>' +
+                            '<b>PM 2.5 : </b>' + e.features[0].properties.pm25 + ' µg./m3' + '<br/>'
+                        )
+                        .addTo(map);
+                });
+
+                map.on('mouseenter', 'unclustered-point1', function () {
+                    map.getCanvas().style.cursor = 'pointer';
+                });
+                map.on('mouseleave', 'unclustered-point1', function () {
+                    map.getCanvas().style.cursor = '';
+                });
+
+        
+                map.addSource("STA_PM2021-01-23", {
+                    type: "vector",
+                    tiles: [
+                        "https://v2k.vallarismaps.com/core/tiles/604372f0159451bc3309cd79/{z}/{x}/{y}?api_key=YXBT4wOI2bCjUpRR1oj9ETvfn66j5iEvjDWbfcWlZi2jRgcZAKnYF7j3sqbavw18"
+                    ],
+                    "minzoom": 0,
+                    "maxzoom": 14
+                });
+
+                map.addLayer({
+                    id: 'clusters2',
+                    type: 'circle',
+                    source: 'STA_PM2021-01-23',
+                    "source-layer": "604372f0159451bc3309cd79",
+                    layout: {
+                        'visibility': 'none'
+                    },
+                    filter: ['has', 'point_count'],
+                    paint: {
+                        // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+                        // with three steps to implement three types of circles:
+                        //   * Blue, 20px circles when point count is less than 100
+                        //   * Yellow, 30px circles when point count is between 100 and 750
+                        //   * Pink, 40px circles when point count is greater than or equal to 750
+                        'circle-color': [
+                            'step',
+                            ['get', 'point_count'],
+                            '#51bbd6',
+                            5,
+                            '#f1f075',
+                            10,
+                            '#f28cb1'
+                        ],
+                        'circle-radius': [
+                            'step',
+                            ['get', 'point_count'],
+                            20,
+                            100,
+                            30,
+                            750,
+                            40
+                        ]
+                    }
+                });
+
+                map.addLayer({
+                    'id': 'earthquake-labels2',
+                    'type': 'symbol',
+                     source: 'STA_PM2021-01-23',
+                    "source-layer": "604372f0159451bc3309cd79",
+                    'layout': { 'visibility': 'none',
+                        'text-field': [
+                            'concat',
+                            ['to-string', ['get', 'point_count']],
+                        ],
+                        'text-font': [
+                            'Kanit',
+                            'Kanit'
+                        ],
+                        'text-size': 12
+                    },
+                    'paint': {
+                        'text-color': 'rgba(0,0,0,0.5)'
+                    }
+                });
+
+                map.addLayer({
+                    id: 'unclustered-point2',
+                    type: 'circle',
+                    source: 'STA_PM2021-01-23',
+                    "source-layer": "604372f0159451bc3309cd79",
+                    filter: ['!', ['has', 'point_count']],
+                    layout: {
+                        'visibility': 'none'
+                    },
+                    paint: {
+                        'circle-color': '#11b4da',
+                        'circle-radius': 4,
+                        'circle-stroke-width': 1,
+                        'circle-stroke-color': '#fff'
+                    }
+                });
+
+                map.on('click', 'unclustered-point2', function (e) {
+                    new mapboxgl.Popup({
+                            className: "apple-popup"
+                        })
+                        .setLngLat(e.lngLat)
+                        .setHTML(
+                            '<b>Station ID : </b>' + e.features[0].properties.stationid + '<br/>' +
+                            '<b>Station name : </b>' + e.features[0].properties.nameen + '<br/>' +
+                            '<b>PM 2.5 : </b>' + e.features[0].properties.pm25 + ' µg./m3' + '<br/>'
+                        )
+                        .addTo(map);
+                });
+
+                map.on('click', 'unclustered-point2', function (e) {
+                    new mapboxgl.Popup({
+                            className: "apple-popup"
+                        })
+                        .setLngLat(e.lngLat)
+                        .setHTML(
+                            '<b>Station ID : </b>' + e.features[0].properties.stationid + '<br/>' +
+                            '<b>Station name : </b>' + e.features[0].properties.nameen + '<br/>' +
+                            '<b>PM 2.5 : </b>' + e.features[0].properties.pm25 + ' µg./m3' + '<br/>'
+                        )
+                        .addTo(map);
+                });
+
+                map.on('mouseenter', 'unclustered-point2', function () {
+                    map.getCanvas().style.cursor = 'pointer';
+                });
+                map.on('mouseleave', 'unclustered-point2', function () {
+                    map.getCanvas().style.cursor = '';
+                });
+
+                map.addSource("STA_PM2021-01-19", {
+                    type: "vector",
+                    tiles: [
+                        "https://v2k.vallarismaps.com/core/tiles/6043730f62281fca3a32ea59/{z}/{x}/{y}?api_key=YXBT4wOI2bCjUpRR1oj9ETvfn66j5iEvjDWbfcWlZi2jRgcZAKnYF7j3sqbavw18"
+                    ],
+                    "minzoom": 0,
+                    "maxzoom": 14
+                });
+
+                map.addLayer({
+                    id: 'clusters3',
+                    type: 'circle',
+                    source: 'STA_PM2021-01-19',
+                    "source-layer": "6043730f62281fca3a32ea59",
+                    layout: {
+                        'visibility': 'none'
+                    },
+                    filter: ['has', 'point_count'],
+                    paint: {
+                        // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+                        // with three steps to implement three types of circles:
+                        //   * Blue, 20px circles when point count is less than 100
+                        //   * Yellow, 30px circles when point count is between 100 and 750
+                        //   * Pink, 40px circles when point count is greater than or equal to 750
+                        'circle-color': [
+                            'step',
+                            ['get', 'point_count'],
+                            '#51bbd6',
+                            5,
+                            '#f1f075',
+                            10,
+                            '#f28cb1'
+                        ],
+                        'circle-radius': [
+                            'step',
+                            ['get', 'point_count'],
+                            20,
+                            100,
+                            30,
+                            750,
+                            40
+                        ]
+                    }
+                });
+
+                map.addLayer({
+                    'id': 'earthquake-labels3',
+                    'type': 'symbol',
+                     source: 'STA_PM2021-01-19',
+                    "source-layer": "6043730f62281fca3a32ea59",
+                    'layout': { 'visibility': 'none',
+                        'text-field': [
+                            'concat',
+                            ['to-string', ['get', 'point_count']],
+                        ],
+                        'text-font': [
+                            'Kanit',
+                            'Kanit'
+                        ],
+                        'text-size': 12
+                    },
+                    'paint': {
+                        'text-color': 'rgba(0,0,0,0.5)'
+                    }
+                });
+
+                map.addLayer({
+                    id: 'unclustered-point3',
+                    type: 'circle',
+                    source: 'STA_PM2021-01-19',
+                    "source-layer": "6043730f62281fca3a32ea59",
+                    filter: ['!', ['has', 'point_count']],
+                    layout: {
+                        'visibility': 'none'
+                    },
+                    paint: {
+                        'circle-color': '#11b4da',
+                        'circle-radius': 4,
+                        'circle-stroke-width': 1,
+                        'circle-stroke-color': '#fff'
+                    }
+                });
+
+                map.on('click', 'unclustered-point3', function (e) {
+                    new mapboxgl.Popup({
+                            className: "apple-popup"
+                        })
+                        .setLngLat(e.lngLat)
+                        .setHTML(
+                            '<b>Station ID : </b>' + e.features[0].properties.stationid + '<br/>' +
+                            '<b>Station name : </b>' + e.features[0].properties.nameen + '<br/>' +
+                            '<b>PM 2.5 : </b>' + e.features[0].properties.pm25 + ' µg./m3' + '<br/>'
+                        )
+                        .addTo(map);
+                });
+
+                map.on('click', 'unclustered-point3', function (e) {
+                    new mapboxgl.Popup({
+                            className: "apple-popup"
+                        })
+                        .setLngLat(e.lngLat)
+                        .setHTML(
+                            '<b>Station ID : </b>' + e.features[0].properties.stationid + '<br/>' +
+                            '<b>Station name : </b>' + e.features[0].properties.nameen + '<br/>' +
+                            '<b>PM 2.5 : </b>' + e.features[0].properties.pm25 + ' µg./m3' + '<br/>'
+                        )
+                        .addTo(map);
+                });
+
+                map.on('mouseenter', 'unclustered-point3', function () {
+                    map.getCanvas().style.cursor = 'pointer';
+                });
+                map.on('mouseleave', 'unclustered-point3', function () {
+                    map.getCanvas().style.cursor = '';
+                });
+
+                map.addSource("STA_PM2021-01-16", {
+                    type: "vector",
+                    tiles: [
+                        "https://v2k.vallarismaps.com/core/tiles/6043733127160b9ff82d784c/{z}/{x}/{y}?api_key=YXBT4wOI2bCjUpRR1oj9ETvfn66j5iEvjDWbfcWlZi2jRgcZAKnYF7j3sqbavw18"
+                    ],
+                    "minzoom": 0,
+                    "maxzoom": 14
+                });
+
+                map.addLayer({
+                    id: 'clusters3',
+                    type: 'circle',
+                    source: 'STA_PM2021-01-19',
+                    "source-layer": "6043730f62281fca3a32ea59",
+                    layout: {
+                        'visibility': 'none'
+                    },
+                    filter: ['has', 'point_count'],
+                    paint: {
+                        // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
+                        // with three steps to implement three types of circles:
+                        //   * Blue, 20px circles when point count is less than 100
+                        //   * Yellow, 30px circles when point count is between 100 and 750
+                        //   * Pink, 40px circles when point count is greater than or equal to 750
+                        'circle-color': [
+                            'step',
+                            ['get', 'point_count'],
+                            '#51bbd6',
+                            5,
+                            '#f1f075',
+                            10,
+                            '#f28cb1'
+                        ],
+                        'circle-radius': [
+                            'step',
+                            ['get', 'point_count'],
+                            20,
+                            100,
+                            30,
+                            750,
+                            40
+                        ]
+                    }
+                });
+
+                map.addLayer({
+                    'id': 'earthquake-labels3',
+                    'type': 'symbol',
+                     source: 'STA_PM2021-01-19',
+                    "source-layer": "6043730f62281fca3a32ea59",
+                    'layout': { 'visibility': 'none',
+                        'text-field': [
+                            'concat',
+                            ['to-string', ['get', 'point_count']],
+                        ],
+                        'text-font': [
+                            'Kanit',
+                            'Kanit'
+                        ],
+                        'text-size': 12
+                    },
+                    'paint': {
+                        'text-color': 'rgba(0,0,0,0.5)'
+                    }
+                });
+
+                map.addLayer({
+                    id: 'unclustered-point3',
+                    type: 'circle',
+                    source: 'STA_PM2021-01-19',
+                    "source-layer": "6043730f62281fca3a32ea59",
+                    filter: ['!', ['has', 'point_count']],
+                    layout: {
+                        'visibility': 'none'
+                    },
+                    paint: {
+                        'circle-color': '#11b4da',
+                        'circle-radius': 4,
+                        'circle-stroke-width': 1,
+                        'circle-stroke-color': '#fff'
+                    }
+                });
+
+                map.on('click', 'unclustered-point3', function (e) {
+                    new mapboxgl.Popup({
+                            className: "apple-popup"
+                        })
+                        .setLngLat(e.lngLat)
+                        .setHTML(
+                            '<b>Station ID : </b>' + e.features[0].properties.stationid + '<br/>' +
+                            '<b>Station name : </b>' + e.features[0].properties.nameen + '<br/>' +
+                            '<b>PM 2.5 : </b>' + e.features[0].properties.pm25 + ' µg./m3' + '<br/>'
+                        )
+                        .addTo(map);
+                });
+
+                map.on('click', 'unclustered-point3', function (e) {
+                    new mapboxgl.Popup({
+                            className: "apple-popup"
+                        })
+                        .setLngLat(e.lngLat)
+                        .setHTML(
+                            '<b>Station ID : </b>' + e.features[0].properties.stationid + '<br/>' +
+                            '<b>Station name : </b>' + e.features[0].properties.nameen + '<br/>' +
+                            '<b>PM 2.5 : </b>' + e.features[0].properties.pm25 + ' µg./m3' + '<br/>'
+                        )
+                        .addTo(map);
+                });
+
+                map.on('mouseenter', 'unclustered-point3', function () {
+                    map.getCanvas().style.cursor = 'pointer';
+                });
+                map.on('mouseleave', 'unclustered-point3', function () {
+                    map.getCanvas().style.cursor = '';
+                });
+  
+                
+            
+            
+
+
+      
+
+      
+
+
+
+
+
+            });
+        </script>
+
+</body>
+
+</html>
