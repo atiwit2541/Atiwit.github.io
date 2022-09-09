@@ -1,0 +1,529 @@
+/* @import "style.css";  */
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    p {text-align: center;}
+    div {text-align: center;}
+
+    #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        right: 0px;
+        z-index: -1;
+    }
+
+    #map2 {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        right: 0px;
+        z-index: 0;
+    }
+
+    #features {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 30%;
+        overflow: auto;
+        background: rgba(255, 255, 255, 0.9);
+    }
+
+    #menu {
+        background: rgba(255, 255, 255, 0);
+        position: absolute;
+        z-index: 1;
+        top: 150px;
+        left: 10px;
+        /* border-radius: 10px; */
+        width: 350px;
+        border: 1px solid rgba(255, 255, 255, 0);
+        font-family: 'Open Sans', sans-serif;
+        column-count : 1;
+
+    }
+
+    #menu a {
+        font-size: 13px;
+        color: #404040;
+        display: block;
+        margin: 0;
+        padding: 0;
+        padding: 10px;
+        text-decoration: none;
+        border-bottom: 0px solid rgba(0, 0, 0, 0.25);
+        text-align: left;
+    }
+
+    #menu a:last-child {
+        border: none;
+    }
+
+    #menu a:hover {
+        background-color: #f2ecec;
+        color: #2393de;
+    }
+
+    #menu a.active {
+        background-color: #f2ecec;
+        color: #2393de;
+    }
+
+    #menu a.active:hover {
+        background: #f2ecec;
+    }
+
+    #menu1 {
+        background: rgba(255, 255, 255, 0);
+        position: absolute;
+        z-index: 1;
+        top: 150px;
+        left: 10px;
+        /* border-radius: 10px; */
+        width: 350px;
+        border: 1px solid rgba(255, 255, 255, 0);
+        font-family: 'Open Sans', sans-serif;
+        column-count : 1;
+      
+    }
+
+
+    #menu1 a {
+        font-size: 13px;
+        color: #404040;
+        display: block;
+        margin: 0;
+        padding: 0;
+        padding: 10px;
+        text-decoration: none;
+        border-bottom: 0px solid rgba(0, 0, 0, 0.25);
+        text-align: left;
+        
+    }
+
+    #menu1 a:last-child {
+        border: none;
+    }
+
+    #menu1 a:hover {
+        background-color: #f2ecec;
+        color: #2393de;
+    }
+
+    #menu1 a.active {
+        background-color: #f2ecec;
+        color: #2393de;
+    }
+
+    #menu1 a.active:hover {
+        background: #f2ecec;
+    }
+
+    #print {
+        position: absolute;
+        padding: 1px;
+        top: 105px;
+        right: 7px;
+        overflow: auto;
+        background: rgba(255, 255, 255, 0.0);
+        z-index: 1;
+    }
+
+    #mapservice {
+        position: absolute;
+        padding: 1px;
+        top: 165px;
+        right: 7px;
+        overflow: auto;
+        background: rgba(255, 255, 255, 0.0);
+        z-index: 1;
+    }
+
+    pre {
+        display: block;
+        font-family: monospace;
+        white-space: pre;
+        margin: 0;
+    }
+
+    td,
+    th {
+        border: 0px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+
+    table.center {
+        margin-left: 4px;
+        margin-right: 4px;
+        bottom: 10px;
+    }
+
+    table.d {
+        table-layout: fixed;
+        width: 180px;
+    }
+
+    .alert {
+        position: absolute;
+        z-index: 2;
+        bottom: 0;
+        left: 10px;
+        right: 10px;
+        width: 350px;
+        padding: 0px;
+        background-color: #4caf4f;
+        color: white;
+        opacity: 0.9;
+        transition: opacity 0.6s;
+        margin-bottom: 1px;
+    }
+
+    .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 10px;
+        line-height: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .closebtn:hover {
+        color: black;
+    }
+
+    .buttons2 {
+        text-align: center;
+        position: relative;
+        /* top: 300px; */
+      }
+      .button2 {
+        font-family: 'Hammersmith One', sans-serif;
+        font-size: 10px;
+        color: white;
+        text-align: center;
+        border-radius: 12px;
+        font-size: 12px;
+        background: #42A5F6;
+        padding: 5px 10px 5px 10px;
+        border: none;
+      }
+      .button2:hover {
+        background: #0090FF;
+        color: black;
+      }
+
+    .button {
+        background-color: white;
+        /* Green */
+        border: none;
+        color: black;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 12px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+
+
+    .button4 {
+        border-radius: 12px;
+    }
+
+    .legend {
+        background-color: #fff;
+        border-radius: 3px;
+        bottom: 50px;
+        /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); */
+        font: 4px/5px 'Open Sans', sans-serif;
+        padding: 10px;
+        position: absolute;
+        right: 60px;
+        z-index: 1;
+    }
+
+    .legend h4 {
+        margin: 0 0 10px;
+    }
+
+    .legend div span {
+        border-radius: 50%;
+        display: inline-block;
+        height: 10px;
+        margin-right: 10px;
+        width: 10px;
+    }
+
+    .sidebar {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 2;
+        top: 0;
+        left: 0;
+        background-color: #f2ecec;
+        overflow-x: scroll;
+        overflow-y: scroll;
+        transition: 0.1s;
+        padding-top: 60px;
+    }
+
+    .sidebar a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+        color: #f1f1f1;
+    }
+
+    .sidebar .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+
+    .openbtn {
+        position: absolute;
+        z-index: 1;
+        top: 70px;
+        left: 20px;
+        font-size: 20px;
+        cursor: pointer;
+        background-color: #111;
+        color: white;
+        padding: 5px 10px;
+        border: none;
+    }
+
+    .openbtn:hover {
+        background-color: #444;
+    }
+
+    #main {
+        transition: margin-left .5s;
+        padding: 16px;
+    }
+
+    /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+    @media screen and (max-height: 450px) {
+        .sidebar {
+            padding-top: 15px;
+        }
+
+        .sidebar a {
+            font-size: 16px;
+        }
+    }
+
+    .sidebar2 {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 2;
+        top: 0;
+        left: 0;
+        background-color: #f2ecec;
+        overflow-x: scroll;
+        overflow-y: scroll;
+        transition: 0.5s;
+        padding-top: 60px;
+    }
+
+    .sidebar2 a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .sidebar2 a:hover {
+        color: #f1f1f1;
+    }
+
+    .sidebar2 .closebtn2 {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+
+    .openbtn2 {
+        position: absolute;
+        z-index: 1;
+        top: 120px;
+        left: 20px;
+        font-size: 20px;
+        cursor: pointer;
+        background-color: #111;
+        color: white;
+        padding: 5px 10px;
+        border: none;
+    }
+
+    .openbtn2:hover {
+        background-color: #444;
+    }
+
+    #main2 {
+        transition: margin-left .5s;
+        padding: 16px;
+    }
+
+    /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+    @media screen and (max-height: 450px) {
+        .sidebar2 {
+            padding-top: 15px;
+        }
+
+        .sidebar2 a {
+            font-size: 16px;
+        }
+    }
+
+    .sidebar3 {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        height: 40%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        bottom: 30px;
+        right : 10px;
+        background-color: #ffffff;
+        overflow-x: scroll;
+        overflow-y: scroll;
+        transition: 0.5s;
+        padding-top: 30px;
+    }
+
+    .sidebar3 a {
+        padding: 2px 3px 1px 1px;
+        text-decoration: none;
+        font-size: 18px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .sidebar3 a:hover {
+        color: #ffffff;
+    }
+
+    .sidebar3 .closebtn3 {
+        position: absolute;
+        top: 0;
+        right: 10px;
+        font-size: 20px;
+        margin-left: 30px;
+    }
+
+    .openbtn3 {
+        position: absolute;
+        z-index: 1;
+        top: 160px;
+        right : 11px;
+        font-size: 20px;
+        cursor: pointer;
+        background-color: white;
+        color: #444;
+        padding: 5px 10px;
+        border: none;
+    }
+
+    .openbtn3:hover {
+        background-color: white;
+    }
+
+    #main3 {
+        transition: margin-left .5s;
+        padding: 16px;
+    }
+
+    /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+    @media screen and (max-height: 250px) {
+        .sidebar3 {
+            padding-top: 15px;
+        }
+
+        .sidebar3 a {
+            font-size: 16px;
+        }
+    }
+
+    .openbtn4 {
+        position: absolute;
+        z-index: 1;
+        top: 15px;
+        left : 20px;
+        font-size: 20px;
+        cursor: pointer;
+        background-color: #111;
+        color: #444;
+        padding: 2px 2px;
+        border: none;
+    }
+
+    .openbtn4:hover {
+        background-color: white;
+    }
+    .fit {
+        position: absolute;
+        z-index: 1;
+        height: 37px;
+        top: 230px;
+        right: 10px;
+        font-size: 12px;
+        cursor: pointer;
+        background-color: rgb(255, 255, 255);
+        color:  #444;
+        padding: 5px 10px;
+        border: #000033;
+      }
+  
+    .fit:hover {
+    background-color: #444;
+    }
+
+    .fit1 {
+    border-radius: 12px;
+    }
+
+    #fit {
+    transition: margin-left .5s;
+    padding: 10px;
+    }
