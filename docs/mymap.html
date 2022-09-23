@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>PM2.5_map</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.10.0/mapbox-gl.js"></script>
+<!-- geocoder -->
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+<link rel="stylesheet" href="mapbox.css">
+<script src="mybox.js"></script>
+<style>
+</style>
+</head>
+<body>
+    
+     <!--ตาราง  -->
+    <div class="table_position">
+        <table style="width:100%;">
+        <tr>
+            <th>Color</th>
+            <th>ดัชนีคุณคุณภาพอากาศ AQI สำหรับ PM 2.5</th> 
+        </tr>
+        <tr>
+            <td style="background-color: 	rgb(0, 255, 255)"></td>
+            <td>ดีมาก</td>
+        </tr>
+        <tr>
+            <td style="background-color: 	rgb(53, 150, 53)"></td>
+            <td>ดี</td>
+        </tr>
+        <tr>
+            <td style="background-color: rgb(255, 255, 0)"></td>
+            <td>ปานกลาง</td>
+        </tr>
+        <tr>
+            <td style="background-color: rgb(255, 128, 0)"></td>
+                <td>เริ่มมีผลกระทบต่อสุขภาพ</td>
+        </tr>
+        <tr>
+            <td style="background-color:  rgb(255, 0, 0)"></td>
+            <td>มีผลกระทบต่อสุขภาพ</td>
+            </tr>
+        </table>
+    </div>
+    <!-- ปุ่ม -->
+    <button class="but1" style="font-size:20px;cursor:pointer" onclick="openNav()">ชั้นข้อมูล</button>
+    <!-- สไลบาร์ -->
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a style="color:white">ภาพถ่ายดาวเทียม</a>
+        <nav id="menu"></nav>
+    </div>
+    <!-- Map -->
+    <div id="map"></div>
+    
+<script>
+    //ใส่ API
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYXRpd2l0IiwiYSI6ImNraHEzd2dhcjFoM3IzOG14OWE2NDN4d2EifQ.gpmCZaDqR21iu8k2jbv4PQ';
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/satellite-streets-v11',
+        zoom: 4.5,
+        center: [100, 13],
+        projection: 'globe'
+    });
+
+    //เครื่องมือ
+    // Geocoder
+    map.addControl(
+        new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken,
+            mapboxgl: mapboxgl
+        })
+    );
+    //Geolocate
+    map.addControl(
+        new mapboxgl.GeolocateControl({
+            positionOptions: {
+                enableHighAccuracy: true
+            },
+            // When active the map will receive updates to the device's location as it changes.
+            trackUserLocation: true,
+            // Draw an arrow next to the location dot to indicate which direction the device is heading.
+            showUserHeading: true
+        })
+    );
+    //Fullscreen
+    map.addControl(new mapboxgl.FullscreenControl());
+    //Zoom
+    map.addControl(new mapboxgl.NavigationControl());
+    //โหลดข้อมูล
+    map.on('load', () => {
+        // หมอก
+        map.setFog({});
+        //เพิ่มชั้นข้อมูล
+        map.addSource("mappm25", {
+            type: "geojson",
+            data: "https://raw.githubusercontent.com/atiwit2541/PM/main/thai_pm.geojson",
+        });
+        map.addLayer({
+            id: 'mappm25',
+            type: 'fill-extrusion',
+            source: 'mappm25',
+            layout: {
+                'visibility': 'none'
+            },
+            paint: {
+                'fill-extrusion-color': [
+                    "interpolate",
+                    ["linear"],
+                    ["get", "PM25"],
+                    0,
+                    "rgb(0, 255, 255)",
+                    26,
+                    "rgb(53, 150, 53)",
+                    38,
+                    "rgb(255, 255, 0)",
+                    51,
+                    "rgb(255, 128, 0)",
+                    91,
+                    "rgb(255, 0, 0)",
+                ],
+            }
+        });
+    });
+    //ป็อปอัพ
+    map.on('click', 'mappm25', function (e) {
+        new mapboxgl.Popup({
+                className: "apple-popup"
+            })
+            .setLngLat(e.lngLat)
+            .setHTML(
+                '<b>PM 2.5 : </b>' + e.features[0].properties.PM25 + ' µg./m3' + '<br/>'
+
+            )
+            .addTo(map);
+    });
+    //เคอเซอร์
+    map.on('mouseenter', 'mappm25', function () {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+    map.on('mouseleave', 'mappm25', function () {
+        map.getCanvas().style.cursor = '';
+    });
+    //เปิดปิดชั้นข้อมูล
+    toggleLayer(['mappm25'],
+        'ค่า PM 2.5 ทั่วประเทศไทย');
+    
+</script>
+
+    
+    
+    
+</body>
+</html>
