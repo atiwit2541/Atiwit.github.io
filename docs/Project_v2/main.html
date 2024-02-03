@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Map with PM2.5 Data</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="map"></div>
+    <div class="table_position">
+        <table style="width:100%;">
+        <tr>
+            <th>สีที่ใช้</th>
+            <th>ค่าดัชนีคุณภาพอากาศ (AQI)</th> 
+            <th>ความหมาย (ระดับคุณภาพอากาศ)</th> 
+           
+        </tr>
+        <tr>
+            <td style="background-color: 	rgb(0, 255, 255)"></td>
+            <td>0 - 25</td>
+            <td>ดีมาก</td>
+        </tr>
+        <tr>
+            <td style="background-color: 	rgb(53, 150, 53)"></td>
+            <td>26 - 50</td>
+            <td>ดี</td>
+        </tr>
+        <tr>
+            <td style="background-color: rgb(255, 255, 0)"></td>
+            <td>51 - 100</td>
+            <td>ปานกลาง</td>
+        </tr>
+        <tr>
+            <td style="background-color: rgb(255, 128, 0)"></td>
+            <td>101 - 200</td>
+            <td>เริ่มมีผลกระทบต่อสุขภาพ</td>
+        </tr>
+        <tr>
+            <td style="background-color:  rgb(255, 0, 0)"></td>
+            <td>201 ขึ้นไป</td>
+            <td>มีผลกระทบต่อสุขภาพ</td>
+            </tr>
+        </table>
+    </div>
+    <div class="map-overlay top">
+        <div class="map-overlay-inner">
+            <fieldset class="select-fieldset">
+                <label>Select layers</label>
+                <select id="lightPreset" name="lightPreset">
+                    <!-- Each value matches a light preset -->
+                    <option value="dawn">Dawn</option>
+                    <option value="day" selected="">Day</option>
+                </select>
+                <hr>
+            </fieldset>
+            <!-- Checkbox for PM2.5 layer visibility -->
+            <fieldset>
+                <label for="showPM25Layer">PM2.5 Stations & MODIS Analysis</label>
+                <input type="checkbox" id="showPM25Layer" checked="">
+            </fieldset>
+            <!-- Checkbox for PM2.5-related layers visibility -->
+            <fieldset>
+                <label for="Stations clusters">Air Quality Stations Clusters</label>
+                <input type="checkbox" id="Stations clusters" checked="">
+            </fieldset>
+        </div>
+    </div>
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiYXRpd2l0IiwiYSI6ImNraHEzd2dhcjFoM3IzOG14OWE2NDN4d2EifQ.gpmCZaDqR21iu8k2jbv4PQ';
+    
+        const map = new mapboxgl.Map({
+            container: 'map',
+            zoom: 4.5,
+            center: [100, 13],
+            projection: 'globe'
+        });
+
+            // Add Mapbox Geocoder control
+        map.addControl(
+            new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken,
+            mapboxgl: mapboxgl
+        })
+        );
+    
+        // Add Mapbox Geolocate control
+        map.addControl(
+            new mapboxgl.GeolocateControl({
+                positionOptions: {
+                    enableHighAccuracy: true
+                },
+                trackUserLocation: true,
+                showUserHeading: true
+            })
+        );
+    
+        // Add Mapbox Fullscreen control
+        map.addControl(new mapboxgl.FullscreenControl());
+    
+        // Add Mapbox Navigation control (Zoom)
+        map.addControl(new mapboxgl.NavigationControl());
+
+        document
+        .getElementById('lightPreset')
+        .addEventListener('change', function () {
+            map.setConfigProperty('basemap', 'lightPreset', this.value);
+        });
+
+        document
+            .querySelectorAll('.map-overlay-inner input[type="checkbox"]')
+            .forEach((checkbox) => {
+                checkbox.addEventListener('change', function () {
+                    map.setConfigProperty('basemap', this.id, this.checked);
+                });
+        });
+   
+        map.on('style.load', () => {
+
+    
+            // Existing code for light preset and checkbox interactions
+            document.getElementById('lightPreset').addEventListener('change', function () {
+                map.setStyle('mapbox://styles/mapbox/' + this.value + '-v11');
+            });
+    
+            const showPM25LayerCheckbox = document.getElementById('showPM25Layer');
+            showPM25LayerCheckbox.addEventListener('change', function () {
+                const visibility = this.checked ? 'visible' : 'none';
+                map.setLayoutProperty('mappm25', 'visibility', visibility);
+            });
+    
+            const showPM25LayerStationsCheckbox = document.getElementById('Stations clusters');
+            showPM25LayerStationsCheckbox.addEventListener('change', function () {
+                const visibility = this.checked ? 'visible' : 'none';
+                map.setLayoutProperty('clusters', 'visibility', visibility);
+                map.setLayoutProperty('cluster-count', 'visibility', visibility);
+                map.setLayoutProperty('unclustered-point', 'visibility', visibility);
+            });
+    
+            map.addSource("mappm25", {
+                type: "geojson",
+                data: "https://raw.githubusercontent.com/atiwit2541/PM/main/thai_pm.geojson",
+            });
+    
+            map.addLayer({
+                id: 'mappm25',
+                type: 'fill',
+                source: 'mappm25',
+                paint: {
+                    'fill-color': [
+                        "interpolate",
+                        ["linear"],
+                        ["get", "PM25"],
+                        0,
+                        "rgb(0, 255, 255)",
+                        26,
+                        "rgb(53, 150, 53)",
+                        38,
+                        "rgb(255, 255, 0)",
+                        51,
+                        "rgb(255, 128, 0)",
+                        91,
+                        "rgb(255, 0, 0)",
+                    ],
+                }
+            });
+            map.on('click', 'mappm25', function (e) {
+            new mapboxgl.Popup({
+                className: "apple-popup"
+            })
+            .setLngLat(e.lngLat)
+            .setHTML(
+                '<b>PM 2.5 : </b>' + e.features[0].properties.PM25 + ' µg./m3' + '<br/>'
+
+            )
+            .addTo(map);
+            });
+            map.on('mouseenter', 'mappm25', function () {
+            map.getCanvas().style.cursor = 'pointer';
+            });
+            map.on('mouseleave', 'mappm25', function () {
+                map.getCanvas().style.cursor = '';
+            });
+            // Add PM2.5-related GeoJSON source and layers
+            map.addSource('clusters_stations', {
+                type: 'geojson',
+                data: 'https://raw.githubusercontent.com/atiwit2541/Atiwit.github.io/main/docs/data/geojson/pm25.geojson',
+                cluster: true,
+                clusterMaxZoom: 14,
+                clusterRadius: 50
+            });
+    
+            map.addLayer({
+                id: 'clusters',
+                type: 'circle',
+                source: 'clusters_stations',
+                filter: ['has', 'point_count'],
+                paint: {
+                    'circle-color': [
+                        'step',
+                        ['get', 'point_count'],
+                        '#51bbd6',
+                        100,
+                        '#f1f075',
+                        750,
+                        '#f28cb1'
+                    ],
+                    'circle-radius': [
+                        'step',
+                        ['get', 'point_count'],
+                        20,
+                        100,
+                        30,
+                        750,
+                        40
+                    ]
+                }
+            });
+    
+            map.addLayer({
+                id: 'cluster-count',
+                type: 'symbol',
+                source: 'clusters_stations',
+                filter: ['has', 'point_count'],
+                layout: {
+                    'text-field': ['get', 'point_count_abbreviated'],
+                    'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+                    'text-size': 12
+                }
+            });
+    
+            map.addLayer({
+                id: 'unclustered-point',
+                type: 'circle',
+                source: 'clusters_stations',
+                filter: ['!', ['has', 'point_count']],
+                paint: {
+                    'circle-color': '#11b4da',
+                    'circle-radius': 4,
+                    'circle-stroke-width': 1,
+                    'circle-stroke-color': '#fff'
+                }
+            });
+    
+            // Event listeners for cluster and unclustered-point layers
+            map.on('click', 'clusters', (e) => {
+                const features = map.queryRenderedFeatures(e.point, {
+                    layers: ['clusters']
+                });
+                const clusterId = features[0].properties.cluster_id;
+                map.getSource('clusters_stations').getClusterExpansionZoom(
+                    clusterId,
+                    (err, zoom) => {
+                        if (err) return;
+    
+                        map.easeTo({
+                            center: features[0].geometry.coordinates,
+                            zoom: zoom
+                        });
+                    }
+                );
+            });
+    
+            map.on('click', 'unclustered-point', (e) => {
+                const coordinates = e.features[0].geometry.coordinates.slice();
+                const aqi = e.features[0].properties.PM25_aqi;
+                const value = e.features[0].properties.PM25_value;
+                const name = e.features[0].properties.nameEN;
+    
+                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                }
+    
+                new mapboxgl.Popup()
+                    .setLngLat(coordinates)
+                    .setHTML(
+                        `nameEN: ${name}<br>PM25_aqi: ${aqi}<br>PM25_value: ${value}`
+                       
+                    )
+                    .addTo(map);
+            });
+    
+            map.on('mouseenter', 'unclustered-point', () => {
+                map.getCanvas().style.cursor = 'pointer';
+            });
+    
+            map.on('mouseleave', 'unclustered-point', () => {
+                map.getCanvas().style.cursor = '';
+            });
+        });
+    </script>
+</body>
+
+</html>
