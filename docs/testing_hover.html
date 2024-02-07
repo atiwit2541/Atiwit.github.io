@@ -48,31 +48,28 @@ body { margin: 0; padding: 0; }
             }
         });
         
-        map.on('click', 'unclustered-point', (e) => {
-                const coordinates = e.features[0].geometry.coordinates.slice();
-                const aqi = e.features[0].properties.ID;
-            
-    
-                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                }
+        map.on('mouseenter', 'unclustered-point', (e) => {
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            const aqi = e.features[0].properties.ID;
 
-                new mapboxgl.Popup()
-                    .setLngLat(coordinates)
-                    .setHTML(
-                    `<div style="text-align: center;">${aqi}</div><br>จุดคนพิการ<br><img src="https://japan1616.files.wordpress.com/2014/09/57-a-international-symbol-of-access.png?w=60" alt="Image">`
-                    )
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
 
-                    .addTo(map);
-            });
-    
-            map.on('mouseenter', 'unclustered-point', () => {
-                map.getCanvas().style.cursor = 'pointer';
-            });
-    
+            const popup = new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(
+                `<div style="text-align: center;">${aqi}</div><br>จุดคนพิการ<br><img src="https://japan1616.files.wordpress.com/2014/09/57-a-international-symbol-of-access.png?w=60" alt="Image">`
+                )
+                .addTo(map);
+
+            // Add event listener for mouseleave
             map.on('mouseleave', 'unclustered-point', () => {
                 map.getCanvas().style.cursor = '';
+                popup.remove(); // Remove the popup when leaving the point
             });
+        });
+
         map.addSource("mappm25", {
                 type: "geojson",
                 data: "https://raw.githubusercontent.com/atiwit2541/Atiwit.github.io/main/docs/data/geojson/BKK.geojson",
