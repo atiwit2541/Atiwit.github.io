@@ -1,0 +1,17 @@
+{
+"type": "FeatureCollection",
+"name": "tes2t",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::32647" } },
+"features": [
+{ "type": "Feature", "properties": { "ชื่อเทศกาล": "Songkran", "วันและเวลา": "13-15 April", "กิจกรรม": "Water splashing" }, "geometry": { "type": "Point", "coordinates": [ 673424.256790587562136, 1615278.943032240262255 ] } },
+{ "type": "Feature", "properties": { "ชื่อเทศกาล": "Loy Krathong", "วันและเวลา": "Full moon of the 12th Thai lunar month", "กิจกรรม": "Floating of krathongs" }, "geometry": { "type": "Point", "coordinates": [ 677109.656388407223858, 1609776.472283991286531 ] } },
+{ "type": "Feature", "properties": { "ชื่อเทศกาล": "New Year", "วันและเวลา": "1 January", "กิจกรรม": "Countdown and fireworks" }, "geometry": { "type": "Point", "coordinates": [ 652162.315158815472387, 1584376.851190743036568 ] } },
+{ "type": "Feature", "properties": { "ชื่อเทศกาล": "Makha Bucha", "วันและเวลา": "15th day of the 3rd lunar month", "กิจกรรม": "Offerings to monks" }, "geometry": { "type": "Point", "coordinates": [ 683000.329713262151927, 1601175.213315780973062 ] } },
+{ "type": "Feature", "properties": { "ชื่อเทศกาล": "Visakha Bucha", "วันและเวลา": "Full moon of the 6th lunar month", "กิจกรรม": "Visiting temples, offerings" }, "geometry": { "type": "Point", "coordinates": [ 643079.194633611594327, 1620832.264086379669607 ] } },
+{ "type": "Feature", "properties": { "ชื่อเทศกาล": "Asanha Bucha", "วันและเวลา": "Full moon of the 8th lunar month", "กิจกรรม": "Merit-making activities" }, "geometry": { "type": "Point", "coordinates": [ 658198.468968327739276, 1566322.156666610855609 ] } },
+{ "type": "Feature", "properties": { "ชื่อเทศกาล": "Chulalongkorn Day", "วันและเวลา": "23 October", "กิจกรรม": "Commemoration of King Chulalongkorn" }, "geometry": { "type": "Point", "coordinates": [ 644172.836426281835884, 1610642.117620130302384 ] } },
+{ "type": "Feature", "properties": { "ชื่อเทศกาล": "Chinese New Year", "วันและเวลา": "Based on Chinese lunar calendar, date varies", "กิจกรรม": "Family reunion, offerings, temple visits" }, "geometry": { "type": "Point", "coordinates": [ 686199.672292420174927, 1598554.203154892427847 ] } },
+{ "type": "Feature", "properties": { "ชื่อเทศกาล": "Thai New Year (Northern Thai)", "วันและเวลา": "Based on Buddhist lunar calendar, date varies", "กิจกรรม": "Local cultural activities, procession" }, "geometry": { "type": "Point", "coordinates": [ 650971.923697988502681, 1610171.674465338466689 ] } },
+{ "type": "Feature", "properties": { "ชื่อเทศกาล": "Phi Ta Khon", "วันและเวลา": "10th day of the waxing moon of the 5th lunar month", "กิจกรรม": "Masked procession, music, dance" }, "geometry": { "type": "Point", "coordinates": [ 645858.73663736321032, 1619609.138193747028708 ] } }
+]
+}
