@@ -1,7 +1,7 @@
 {
 "type": "FeatureCollection",
-"name": "random_points_utm",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::32647" } },
+"name": "test",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
 "features": [
 { "type": "Feature", "properties": { "ชื่อเทศกาล": "Songkran", "วันและเวลา": "13-15 April", "กิจกรรม": "Water splashing" }, "geometry": { "type": "Point", "coordinates": [ 673424.256790587562136, 1615278.943032240262255 ] } },
 { "type": "Feature", "properties": { "ชื่อเทศกาล": "Loy Krathong", "วันและเวลา": "Full moon of the 12th Thai lunar month", "กิจกรรม": "Floating of krathongs" }, "geometry": { "type": "Point", "coordinates": [ 677109.656388407223858, 1609776.472283991286531 ] } },
