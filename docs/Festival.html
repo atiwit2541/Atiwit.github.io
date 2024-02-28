@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Load data from an external GeoJSON file</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.js"></script>
+<style>
+body { margin: 0; padding: 0; }
+#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1IjoiYXRpd2l0IiwiYSI6ImNraHEzd2dhcjFoM3IzOG14OWE2NDN4d2EifQ.gpmCZaDqR21iu8k2jbv4PQ';
+    const map = new mapboxgl.Map({
+        container: 'map', // container ID
+        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+        style: 'mapbox://styles/mapbox/satellite-v9', // style URL
+        projection: 'globe', // Display the map as a globe, since satellite-v9 defaults to Mercator
+        zoom: 10,
+        center: [100.1180457657922 , 15.702690127114229],
+    });
+
+    map.on('style.load', () => {
+        map.setFog({}); // Set the default atmosphere style
+    });
+
+    map.on('load', () => {
+        map.addSource('earthquakes', {
+            type: 'geojson',
+            // Use a URL for the value for the `data` property.
+            data: 'https://raw.githubusercontent.com/atiwit2541/Atiwit.github.io/main/docs/data/geojson/nakorn_join_amphoe_wgs84.geojson'
+        });
+
+        map.addLayer({
+            'id': 'unclustered-point',
+            'type': 'circle',
+            'source': 'earthquakes',
+            'paint': {
+                'circle-radius': 4,
+                'circle-stroke-width': 2,
+                'circle-color': 'red',
+                'circle-stroke-color': 'white'
+            }
+        });
+        
+        map.on('mouseenter', 'unclustered-point', (e) => {
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            const Province = e.features[0].properties.Province;
+            const Amphoe = e.features[0].properties.AMP_NAME_E;
+            const Festival = e.features[0].properties.FestivalName;
+            const Date = e.features[0].properties.DateandTime;
+            const Activity = e.features[0].properties.Activity;
+
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+
+            const popup = new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(
+                `<div style="text-align: left;">Pronvince : ${Province}</div><br>
+                <div style="text-align: left;">Amphoe : ${Amphoe}</div><br>
+                <div style="text-align: left;">Festival Name : ${Festival}</div><br>
+                <div style="text-align: left;">Date : ${Date}</div><br>
+                <div style="text-align: left;">Activity : ${Activity}</div><br>`
+                )
+                .addTo(map);
+
+            // Add event listener for mouseleave
+            map.on('mouseleave', 'unclustered-point', () => {
+                map.getCanvas().style.cursor = '';
+                popup.remove(); // Remove the popup when leaving the point
+            });
+            map.on('mouseenter', 'mappm25', function () {
+            map.getCanvas().style.cursor = 'pointer';
+            });
+
+            map.on('mouseleave', 'mappm25', function () {
+                map.getCanvas().style.cursor = '';
+        });
+        });
+       
+
+
+        map.addSource("mappm25", {
+                type: "geojson",
+                data: "https://raw.githubusercontent.com/atiwit2541/Atiwit.github.io/main/docs/data/geojson/amphoe_84.geojson",
+            });
+    
+        map.addLayer({
+            id: 'mappm25',
+            type: 'fill',
+            source: 'mappm25',
+            paint: {
+                'fill-color': 'rgba(223, 255, 0, 0.2)',
+                'fill-outline-color': 'white'
+            }
+        });
+
+    });
+</script>
+
+</body>
+</html>
