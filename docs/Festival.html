@@ -21,10 +21,10 @@ body { margin: 0; padding: 0; }
         // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
         style: 'mapbox://styles/mapbox/satellite-v9', // style URL
         projection: 'globe', // Display the map as a globe, since satellite-v9 defaults to Mercator
-        zoom: 10,
-        center: [100.1180457657922 , 15.702690127114229],
+        zoom: 6,
+        center: [99.58169262477442 , 16.765239051761],
     });
-
+    
     map.on('style.load', () => {
         map.setFog({}); // Set the default atmosphere style
     });
@@ -97,7 +97,7 @@ body { margin: 0; padding: 0; }
             type: 'fill',
             source: 'mappm25',
             paint: {
-                'fill-color': '20% opacity: rgba(255, 160, 122, 0.2)',
+                'fill-color': 'rgba(0, 255, 0, 0.2)',
                 'fill-outline-color': 'white'
             }
         });

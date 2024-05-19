@@ -1,0 +1,20 @@
+{
+"type": "FeatureCollection",
+"name": "point_data",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "Province": "อุตรดิตถ์", "Amphoe": "ลับแล", "Festival": "งานประเพณีถวายพระเพลิงพระบรมศพพระสัมมาสัมพุทธเจ้า (วันอัฐมีบูชา) วัดพระบรมธาตุทุ่งยั้ง", "lat": 17.6007537, "long": 100.0557569 }, "geometry": { "type": "Point", "coordinates": [ 100.0557569, 17.6007537 ] } },
+{ "type": "Feature", "properties": { "Province": "อุตรดิตถ์", "Amphoe": "ลับแล", "Festival": "งานเทศกาลแห่น้ำขึ้นโฮง : ไหว้สาเจ้าฟ้าฮ่ามกุมาร กษัตริย์พระองค์แรกแห่งนครลับแล", "lat": 17.67768735, "long": 100.026364 }, "geometry": { "type": "Point", "coordinates": [ 100.026364, 17.67768735 ] } },
+{ "type": "Feature", "properties": { "Province": "อุตรดิตถ์", "Amphoe": "ลับแล", "Festival": "งานนมัสการพระแท่นศิลาอาสน์", "lat": 17.5996536, "long": 100.0437112 }, "geometry": { "type": "Point", "coordinates": [ 100.0437112, 17.5996536 ] } },
+{ "type": "Feature", "properties": { "Province": "อุตรดิตถ์", "Amphoe": "เมืองอุตรดิตถ์", "Festival": "งานประจำปีนมัสการหลวงพ่อเพชร วัดท่าถนน", "lat": 17.6201907, "long": 100.0986022 }, "geometry": { "type": "Point", "coordinates": [ 100.0986022, 17.6201907 ] } },
+{ "type": "Feature", "properties": { "Province": "อุตรดิตถ์", "Amphoe": "เมืองอุตรดิตถ์", "Festival": " งานประจำปีวัดพระฝางสวางคบุรีมุนีนาถ : จัดโดยเทศบาลตำบลผาจุก", "lat": 17.6399793, "long": 100.2258186 }, "geometry": { "type": "Point", "coordinates": [ 100.2258186, 17.6399793 ] } },
+{ "type": "Feature", "properties": { "Province": "อุตรดิตถ์", "Amphoe": "เมืองอุตรดิตถ์", "Festival": " งานประจำปีวัดหมอนไม้", "lat": 17.61215362, "long": 100.1016291 }, "geometry": { "type": "Point", "coordinates": [ 100.1016291, 17.61215362 ] } },
+{ "type": "Feature", "properties": { "Province": "อุตรดิตถ์", "Amphoe": "พิชัย", "Festival": "งานนมัสการหลวงพ่อโต และของดีเมืองพิชัย", "lat": 17.30557303, "long": 100.072115 }, "geometry": { "type": "Point", "coordinates": [ 100.072115, 17.30557303 ] } },
+{ "type": "Feature", "properties": { "Province": "อุตรดิตถ์", "Amphoe": "ท่าปลา", "Festival": "งานประเพณีสงกรานต์เขื่อนสิริกิติ์", "lat": 17.76453167, "long": 100.5636928 }, "geometry": { "type": "Point", "coordinates": [ 100.5636928, 17.76453167 ] } },
+{ "type": "Feature", "properties": { "Province": "นครสวรรค์", "Amphoe": "เมืองนครสวรรค์ ", "Festival": "งานประเพณีแห่เจ้าพ่อเจ้าแม่ปากน้ำโพ (ตรุษจีนนครสวรรค์) ", "lat": 15.70354838, "long": 100.1394449 }, "geometry": { "type": "Point", "coordinates": [ 100.1394449, 15.70354838 ] } },
+{ "type": "Feature", "properties": { "Province": "นครสวรรค์", "Amphoe": "เมืองนครสวรรค์ ", "Festival": "งานประเพณีตักบาตร เทโวโรหนะ ยอดเขากบ วัตวรนาถบรรพต พระอารามหลวง", "lat": 15.71342947, "long": 100.1376102 }, "geometry": { "type": "Point", "coordinates": [ 100.1376102, 15.71342947 ] } },
+{ "type": "Feature", "properties": { "Province": "อุทัยธานี", "Amphoe": "เมืองอุทัยธานี", "Festival": "งานไหว้พระพุทธมงคลศักดิ์สิทธิ์ วัดสังกัสรัตนคีรี ", "lat": 15.34768595, "long": 100.4983426 }, "geometry": { "type": "Point", "coordinates": [ 100.4983426, 15.34768595 ] } },
+{ "type": "Feature", "properties": { "Province": "อุทัยธานี", "Amphoe": "หนองฉาง", "Festival": "งานประจำปีวัดหนองขุนชาติ", "lat": 15.39231055, "long": 99.83560642 }, "geometry": { "type": "Point", "coordinates": [ 99.83560642, 15.39231055 ] } },
+{ "type": "Feature", "properties": { "Province": "พิจิตร", "Amphoe": null, "Festival": "ประเพณีบุญข้าวเม่าพอกวัดหาดมูลกระบือ", "lat": 16.50598337, "long": 100.2820705 }, "geometry": { "type": "Point", "coordinates": [ 100.2820705, 16.50598337 ] } }
+]
+}
