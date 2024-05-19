@@ -51,8 +51,8 @@ body { margin: 0; padding: 0; }
         map.on('mouseenter', 'unclustered-point', (e) => {
             const coordinates = e.features[0].geometry.coordinates.slice();
             const Province = e.features[0].properties.Province;
-            const Amphoe = e.features[0].properties.AMP_NAME_E;
-            const Festival = e.features[0].properties.FestivalName;
+            const Amphoe = e.features[0].properties.Amphoe;
+            const Festival = e.features[0].properties.Festival;
             const Date = e.features[0].properties.DateandTime;
             const Activity = e.features[0].properties.Activity;
 
