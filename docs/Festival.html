@@ -102,6 +102,22 @@ body { margin: 0; padding: 0; }
             }
         });
 
+        
+        map.addSource("TH", {
+                type: "geojson",
+                data: "https://raw.githubusercontent.com/atiwit2541/Atiwit.github.io/main/docs/data/geojson/TH.geojson",
+            });
+    
+        map.addLayer({
+            id: 'TH',
+            type: 'fill',
+            source: 'TH',
+            paint: {
+                'fill-color': 'rgba(0, 255, 255, 0.2)',
+                'fill-outline-color': 'white'
+            }
+        });
+
     });
 </script>
 
