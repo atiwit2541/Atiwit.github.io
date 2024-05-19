@@ -14,7 +14,6 @@
 { "type": "Feature", "properties": { "Province": "นครสวรรค์", "Amphoe": "เมืองนครสวรรค์ ", "Festival": "งานประเพณีแห่เจ้าพ่อเจ้าแม่ปากน้ำโพ (ตรุษจีนนครสวรรค์) ", "lat": 15.70354838, "long": 100.1394449 }, "geometry": { "type": "Point", "coordinates": [ 100.1394449, 15.70354838 ] } },
 { "type": "Feature", "properties": { "Province": "นครสวรรค์", "Amphoe": "เมืองนครสวรรค์ ", "Festival": "งานประเพณีตักบาตร เทโวโรหนะ ยอดเขากบ วัตวรนาถบรรพต พระอารามหลวง", "lat": 15.71342947, "long": 100.1376102 }, "geometry": { "type": "Point", "coordinates": [ 100.1376102, 15.71342947 ] } },
 { "type": "Feature", "properties": { "Province": "นครสวรรค์", "Amphoe": "ตากฟ้า ", "Festival": "งานประเพณีบุญสลากภัต วัดตากฟ้า พระอารามหลวง ", "lat": 15.34768595, "long": 100.4983426 }, "geometry": { "type": "Point", "coordinates": [ 100.4983426, 15.34768595 ] } },
-{ "type": "Feature", "properties": { "Province": "อุทัยธานี", "Amphoe": "หนองฉาง", "Festival": "งานประจำปีวัดหนองขุนชาติ", "lat": 15.39231055, "long": 99.83560642 }, "geometry": { "type": "Point", "coordinates": [ 99.83560642, 15.39231055 ] } },
 { "type": "Feature", "properties": { "Province": "พิจิตร", "Amphoe": null, "Festival": "ประเพณีบุญข้าวเม่าพอกวัดหาดมูลกระบือ", "lat": 16.50598337, "long": 100.2820705 }, "geometry": { "type": "Point", "coordinates": [ 100.2820705, 16.50598337 ] } }
 ]
 }
